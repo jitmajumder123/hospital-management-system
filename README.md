@@ -11,7 +11,7 @@ MySQL
 SQL
 OOP Concepts
 
-✨ Features
+## Features
 Patient registration and search
 Doctor management with specialization
 Appointment booking system
@@ -26,7 +26,7 @@ doctors
 appointments
 
 ## Database Setup:
-1.Create a Database:
+## 1.Create a Database:
 ```sql
 CREATE DATABASE hospital_db;
 ```
@@ -35,8 +35,8 @@ CREATE DATABASE hospital_db;
 ```sql
 USE hospital_db;
 ```
-
-### 3.Patients Table:
+## Create Tables:
+### 1.Patients Table:
 ```sql
 CREATE TABLE patients (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -46,7 +46,7 @@ CREATE TABLE patients (
     phone VARCHAR(15) UNIQUE
 );
 ```
-### 4.Doctors Table:
+### 2.Doctors Table:
 ```sql
 CREATE TABLE doctors (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -56,7 +56,7 @@ CREATE TABLE doctors (
 );
 ```
 
-### 5.Appointments Table:
+### 3.Appointments Table:
 ```sql
 CREATE TABLE appointments (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -67,4 +67,59 @@ CREATE TABLE appointments (
     FOREIGN KEY (patient_id) REFERENCES patients(id),
     FOREIGN KEY (doctor_id) REFERENCES doctors(id)
 );
+```
+### 4.Main:
+```sql
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n--- Hospital Management System ---");
+            System.out.println("1. Add Patient");
+            System.out.println("2. Search Patient");
+            System.out.println("3. Add Doctor");
+            System.out.println("4. Book Appointment");
+            System.out.println("5. Exit");
+
+            System.out.print("Choice: ");
+            int ch = sc.nextInt();
+
+            switch (ch) {
+                case 1 -> PatientService.addPatient();
+                case 2 -> PatientService.searchPatientById();
+                case 3 -> DoctorService.addDoctor();
+                case 4 -> AppointmentService.bookAppointment();
+                case 5 -> System.exit(0);
+                default -> System.out.println("Invalid choice");
+            }
+        }
+    }
+}
+```
+### 5.DBConnection:
+```sql
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class DBConnection {
+
+    private static final String URL =
+            "jdbc:mysql://localhost:3306/hospital_db";
+    private static final String USER = "root";
+    private static final String PASS = "Password@123";
+
+    public static Connection getConnection() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            return DriverManager.getConnection(URL, USER, PASS);
+        } catch (Exception e) {
+            System.out.println("Database connection failed!");
+            return null;
+        }
+    }
+}
 ```
